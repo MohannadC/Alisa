@@ -2,6 +2,7 @@ from flask import Flask, request
 import json
 from random import choice
 from csv import reader
+from data import db_session
 
 
 def get_random_country():
@@ -23,6 +24,7 @@ def set_session_storage(user_id, suggests):
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 countries = {'1521359/72b334a1e03f56b84360': 'Франция', '1533899/c02a5b5c9c0f3ae8908d': 'Россия',
              '1521359/25a2e4cf7a15bc11ee97': 'Испания', '937455/9ce1d6d126956fc1b754': 'Турция',
              '213044/77d21ad83ad3f85df10c': 'Япония', '937455/0d81cf56ccce8ed332df': 'США',
@@ -36,6 +38,7 @@ countries = {'1521359/72b334a1e03f56b84360': 'Франция', '1533899/c02a5b5c
              '1030494/36ba7798f3a5069ce542': 'Колумбия', '1652229/2cadc2762f267cd29954': 'Индия',
              '1652229/4cf2c2807d02dbffcde1': 'Швейцария', '1540737/5cc83ea3d7876de194da': 'Индонезия',
              }
+
 game_in_progress = False
 counter = 0
 answer = ''
@@ -144,4 +147,5 @@ def get_suggests(user_id):
 
 if __name__ == '__main__':
     app.debug = True
+    db_session.global_init("db/blogs.db")
     app.run()
